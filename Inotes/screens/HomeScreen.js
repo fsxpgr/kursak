@@ -45,9 +45,9 @@ export default class HomeScreen extends React.Component {
         this.setState({notes: newNotes}, this.syncNotes);
     }
     saveAndHideModal(data) {
-        this.state.notes.push(data);
         const newNotes = this.state.notes.map(el=>{
             if(el.id===data.id){
+                data.id = new Date();
                 return data
             }
             return el
@@ -91,7 +91,7 @@ export default class HomeScreen extends React.Component {
             <View style={styles.container}>
 
                 <ScrollView style={{}} contentContainerStyle={styles.contentContainer}>
-                    {this.state.notes.map((item, i) => (
+                    {this.state.notes.sort((a,b) => new Date(b.id) - new Date(a.id)).map((item, i) => (
                         <NoteItem
                             key={i}
                             title={item.title}
@@ -120,7 +120,7 @@ export default class HomeScreen extends React.Component {
                     alignItems: 'center'
                 }}>
                     <Ionicons name="md-create" size={40} color="white" style={{}}
-                              onPress={() => this.setModalVisible(true)}/>
+                              onPress={() =>{ this.setState({modalData:{}}); this.setModalVisible(true)}}/>
                 </View>
 
                 <Modal

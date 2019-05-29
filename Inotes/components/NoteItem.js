@@ -1,11 +1,11 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text,TouchableOpacity} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 
 export default class NoteItem extends React.Component {
     render() {
         return (
-            <View style={{
+            <TouchableOpacity style={{
                 minHeight: 200,
                 backgroundColor: '#fad21d',
                 shadowColor: 'rgba(0,0,0,1)',
@@ -13,7 +13,7 @@ export default class NoteItem extends React.Component {
                 shadowRadius: 2,
                 elevation: 3,
                 marginBottom: 10
-            }}>
+            }}onPress={() => this.props.editNoteItem(this.props.id)}>
                 <View style={{
                     height: 40,
                     borderTopLeftRadius: 10,
@@ -23,19 +23,23 @@ export default class NoteItem extends React.Component {
                     justifyContent: 'space-between',
                     alignItems: 'center'
                 }}>
-                    <Text style={{padding: 5, color: '#999999'}}>{this.props.title}</Text>
+                    <Text style={{padding: 5, color: 'black', fontSize:20, paddingLeft: 5, fontWeight: "bold"}}>{this.props.title}</Text>
                     <View style={{display: 'flex', flexDirection: 'row'}}>
-                        <Ionicons name="md-brush" size={32} color="#999999" style={{padding: 5}}
-                                  onPress={() => this.props.editNoteItem(this.props.id)}/>
-                        <Ionicons name="md-close-circle" size={32} color="#999999" style={{padding: 5}}
+                        {/*<Ionicons name="md-brush" size={32} color="#999999" style={{padding: 5}}*/}
+                        {/*          />*/}
+                        <Ionicons name="md-close" size={40} color="black" style={{padding: 5, opacity:0.8}}
                                   onPress={() => this.props.deleteNoteItem(this.props.id)}/>
                     </View>
                 </View>
 
-                <View style={{display: 'flex', flexDirection: 'row', width: '100%'}}>
-                    <Text style={{padding: 5, color: '#999999'}}>{this.props.content}</Text>
+                <View style={{display: 'flex', flexDirection: 'row', width: '100%', paddingHorizontal: 5}}>
+                    <Text style={{padding: 5, color: 'black', fontStyle:'italic'}}>{this.props.content}</Text>
                 </View>
-            </View>
+                <View style={{display:'flex',flexDirection:"column", position:'absolute', bottom:0, right:0,padding: 5, backgroundColor:'#fad21d', alignItems:'flex-end'}}>
+                    {/*<Text style={{color: 'gray', fontStyle:'italic'}}>last edit</Text>*/}
+                    <Text style={{color: 'gray', fontStyle:'italic'}}>{(new Date(this.props.id)).toLocaleTimeString()} {(new Date(this.props.id).toDateString())}</Text>
+                </View>
+            </TouchableOpacity>
         );
     }
 }

@@ -47,6 +47,7 @@ export default class LoginScreen extends React.Component {
             await AsyncStorage.setItem('@store:email', this.state.email);
             await AsyncStorage.setItem('@store:pass', this.state.password);
             this.props.navigation.navigate("HomeScreen",{email:this.state.email});
+            this.setState({password:'', secondStep: false})
         } catch (e) {
             console.log(e)
             ToastAndroid.showWithGravityAndOffset(
@@ -93,18 +94,14 @@ export default class LoginScreen extends React.Component {
             });
     };
     componentDidMount = async () => {
-        //delete
-       // this.props.navigation.navigate("HomeScreen",{email:"WOKLOLO"});
-        //return
-        //
         BackHandler.addEventListener('hardwareBackPress', () => {
             return true
         });
         try {
-            const password = await AsyncStorage.getItem('@store:pass', this.state.password);
-            console.log(password)
+            const password = await AsyncStorage.getItem('@store:pass');
+            const email = await AsyncStorage.getItem('@store:email');
             if (password) {
-                this.props.navigation.navigate("HomeScreen", {email:this.state.email});
+                this.props.navigation.navigate("HomeScreen", {email});
             }
         } catch (e) {
             //  console.log(e)
